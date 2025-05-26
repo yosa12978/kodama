@@ -1,0 +1,5 @@
+module github.com/yosa12978/kodama
+
+go 1.24.3
+
+require gopkg.in/yaml.v3 v3.0.1

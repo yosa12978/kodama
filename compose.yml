@@ -1,0 +1,10 @@
+services:
+  kodama:
+    container_name: kodama-dev
+    build:
+      context: .
+      dockerfile: air.Dockerfile
+    ports:
+      - 5000:80
+    volumes:
+      - ./:/app
