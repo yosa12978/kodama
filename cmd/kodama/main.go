@@ -3,7 +3,7 @@ package main
 import (
 	"errors"
 	"flag"
-	"log/slog"
+	"fmt"
 	"os"
 
 	"github.com/yosa12978/kodama/internal/app"
@@ -12,8 +12,12 @@ import (
 
 var configFile string
 
+const (
+	noConfigMsg = "\x1b[1;33mConfig file \"%s\" doesn't exist. Using default config.\x1b[00m\n"
+)
+
 func init() {
-	flag.StringVar(&configFile, "config", "config.yml", "kodama config file path")
+	flag.StringVar(&configFile, "config", "/etc/kodama/kodama.yml", "kodama config file path")
 }
 
 func main() {
@@ -22,7 +26,7 @@ func main() {
 	appConfig, err := config.ReadConfig(configFile)
 	if err != nil {
 		if errors.Is(err, os.ErrNotExist) {
-			slog.Warn("Config file doesn't exist. Switching to defaults.", "file", configFile)
+			fmt.Fprintf(os.Stderr, noConfigMsg, configFile)
 		} else {
 			panic(err)
 		}
