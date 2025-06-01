@@ -12,6 +12,7 @@ import (
 
 	"github.com/yosa12978/kodama/internal/config"
 	"github.com/yosa12978/kodama/internal/logger"
+	"github.com/yosa12978/kodama/internal/templates"
 )
 
 type App struct {
@@ -35,8 +36,10 @@ func (a *App) Run() error {
 	)
 
 	server := http.Server{
-		Addr:    a.config.App.Addr,
-		Handler: nil,
+		Addr: a.config.App.Addr,
+		Handler: http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			templates.IndexTemplate.Execute(w, nil)
+		}),
 	}
 
 	errCh := make(chan error, 1)
