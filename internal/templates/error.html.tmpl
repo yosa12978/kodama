@@ -1,0 +1,7 @@
+{{define "title"}}Error{{end}}
+
+{{define "body"}}
+<h1>{{if .StatusCode}}{{.StatusCode}}{{else}}???{{end}}</h1>
+<p>{{if .Message}}{{.Message}}{{else}}Something happened{{end}}</p>
+<a href="/">Go to Homepage</a>
+{{end}}

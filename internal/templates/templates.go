@@ -8,6 +8,14 @@ import (
 //go:embed *.html.tmpl
 var templates embed.FS
 
+const (
+	layoutFile = "layout.html.tmpl"
+)
+
 var IndexTemplate = template.Must(
-	template.ParseFS(templates, "layout.html.tmpl", "index.html.tmpl"),
+	template.ParseFS(templates, layoutFile, "index.html.tmpl"),
+)
+
+var ErrorTemplate = template.Must(
+	template.ParseFS(templates, layoutFile, "error.html.tmpl"),
 )
