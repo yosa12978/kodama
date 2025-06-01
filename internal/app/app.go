@@ -12,7 +12,7 @@ import (
 
 	"github.com/yosa12978/kodama/internal/config"
 	"github.com/yosa12978/kodama/internal/logger"
-	"github.com/yosa12978/kodama/internal/templates"
+	"github.com/yosa12978/kodama/internal/server"
 )
 
 type App struct {
@@ -35,23 +35,18 @@ func (a *App) Run() error {
 		}),
 	)
 
-	server := http.Server{
-		Addr: a.config.App.Addr,
-		Handler: http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			templates.IndexTemplate.Execute(w, nil)
-		}),
-	}
+	appServer := server.New(a.config.App.Addr)
 
 	errCh := make(chan error, 1)
 	go func() {
-		if err := server.ListenAndServe(); err != nil &&
+		if err := appServer.ListenAndServe(); err != nil &&
 			!errors.Is(err, http.ErrServerClosed) {
 			errCh <- err
 		}
 		close(errCh)
 	}()
 
-	slog.Info("Server is running", "addr", server.Addr)
+	slog.Info("Server is running", "addr", appServer.Addr)
 
 	var err error
 	select {
@@ -59,7 +54,7 @@ func (a *App) Run() error {
 	case <-ctx.Done():
 		timeout, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 		defer cancel()
-		err = server.Shutdown(timeout)
+		err = appServer.Shutdown(timeout)
 	}
 
 	return err
