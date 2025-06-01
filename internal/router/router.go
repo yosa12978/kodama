@@ -16,9 +16,11 @@ func defaultRouterOptions() *RouterOptions {
 }
 
 func New(opts *RouterOptions) http.Handler {
-	if opts == nil {
-		opts = defaultRouterOptions()
-	}
+	// options := defaultRouterOptions()
+	// if opts != nil {
+	// 	options = opts
+	// }
+
 	router := http.NewServeMux()
 
 	router.Handle("/assets/", http.FileServerFS(assets.AssetsFS))
