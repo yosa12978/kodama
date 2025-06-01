@@ -11,8 +11,10 @@ import (
 
 type Config struct {
 	App struct {
-		LogLevel string `yaml:"log_level"`
-		Addr     string `yaml:"addr"`
+		Name        string `yaml:"name"`
+		Description string `yaml:"description"`
+		LogLevel    string `yaml:"log_level"`
+		Addr        string `yaml:"addr"`
 	} `yaml:"app"`
 	Postgres struct {
 		Database     string `yaml:"database"`
@@ -27,11 +29,15 @@ type Config struct {
 func DefaultConfig() Config {
 	return Config{
 		App: struct {
-			LogLevel string "yaml:\"log_level\""
-			Addr     string "yaml:\"addr\""
+			Name        string "yaml:\"name\""
+			Description string "yaml:\"description\""
+			LogLevel    string "yaml:\"log_level\""
+			Addr        string "yaml:\"addr\""
 		}{
-			LogLevel: "INFO",
-			Addr:     "0.0.0.0:80",
+			Name:        "Kodama",
+			Description: "",
+			LogLevel:    "INFO",
+			Addr:        "0.0.0.0:80",
 		},
 		Postgres: struct {
 			Database     string "yaml:\"database\""
